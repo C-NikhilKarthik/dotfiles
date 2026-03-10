@@ -1,0 +1,233 @@
+# ╔══════════════════════════════════════════════════════════════════╗
+# ║  FC BARCELONA — "TREBLE 2014/15"  Final Edition v5              ║
+# ║  git fallback padding · clean icons · dithered transitions      ║
+# ╚══════════════════════════════════════════════════════════════════╝
+#
+# Palette:
+#   #004D98  Barça Blue     — directory, language/version
+#   #003A73  Deep Blue      — OS cap, closing cap
+#   #A50044  Barça Maroon   — git branch
+#   #7A0033  Deep Maroon    — git status, cross-family transition zone
+#   #EDBB00  Crest Gold     — git status text, time, icons
+#   #FFED02  Jersey Yellow  — git dirty highlights / read-only
+#   #DB0030  Vivid Red      — errors, redis
+#   #FFFFFF  White          — text on all stripe segments
+#
+# STRIPE FLOW:
+#   BLACK ░▒▓ [DeepBlue:OS][Blue:DIR] ░▒▓ [Maroon:BRANCH][DeepMaroon:STATUS] ░▒▓ [Blue:LANG][DeepBlue] ▓▒░ BLACK
+#
+# FALLBACK:
+#   custom.git_fallback fires when NOT inside a git repo
+#   It renders blank padding with A50044 + 7A0033 backgrounds
+#   so the Maroon stripe is always physically present and full-height
+
+format = """
+[░▒▓](fg:#003A73)\
+$os\
+$directory\
+[░▒▓](fg:#7A0033 bg:#004D98)\
+$git_branch\
+$git_status\
+${custom.git_fallback}\
+[░▒▓](fg:#004D98 bg:#7A0033)\
+$nodejs$typescript$bun$deno$python$rust$golang$c$cpp$csharp$java$swift$php$ruby$redis\
+[▓▒░](fg:#003A73 bg:#004D98)[▓▒░](fg:#003A73)\
+$fill\
+[⏱ ](fg:#EDBB00)\
+$time\
+\n$character
+"""
+
+# ══════════════════════════════
+#  OS — Deep Blue cap
+# ══════════════════════════════
+[os]
+disabled = false
+style    = "bold fg:#FFFFFF bg:#003A73"
+format   = "[ $symbol ]($style)"
+
+[os.symbols]
+Macos   = "\uf179"   # nf-fa-apple
+Linux   = "\uf17c"   # nf-fa-linux
+Ubuntu  = "\uf31b"   # nf-linux-ubuntu
+Windows = "\ueb53"   # nf-cod-terminal_windows
+Unknown = "\uf059"   # nf-fa-question_circle
+
+# ══════════════════════════════
+#  DIRECTORY — Barça Blue
+#  No folder icon — substitutions handle home/named dirs
+#  Plain path otherwise
+# ══════════════════════════════
+[directory]
+style             = "bold fg:#FFFFFF bg:#004D98"
+format            = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "⋯/"
+read_only         = " \uf023"
+read_only_style   = "fg:#FFED02 bg:#004D98"
+
+[directory.substitutions]
+"~"         = "\uf015"   # nf-fa-home  — home dir gets icon
+"Documents" = "\uf02d Docs"
+"Downloads" = "\uf019 DL"
+"Music"     = "\uf001 Music"
+"Pictures"  = "\uf03e Pics"
+"Desktop"   = "\uf108 Desktop"
+"Projects"  = "\uf0e7 Projects"
+"src"       = "src"
+
+# ══════════════════════════════
+#  GIT BRANCH — Barça Maroon
+# ══════════════════════════════
+[git_branch]
+symbol            = "\ue0a0 "   # nf-pl-branch
+style             = "bold fg:#FFFFFF bg:#A50044"
+format            = "[ $symbol$branch ]($style)"
+truncation_length = 18
+truncation_symbol = "…"
+
+# ══════════════════════════════
+#  GIT STATUS — Deep Maroon
+# ══════════════════════════════
+[git_status]
+style      = "bold fg:#EDBB00 bg:#7A0033"
+format     = "[$all_status$ahead_behind ]($style)"
+conflicted = "⚔ "
+untracked  = "? "
+modified   = "± "
+staged     = "● "
+renamed    = "→ "
+deleted    = "✗ "
+stashed    = "≡ "
+ahead      = "⇡${count}"
+behind     = "⇣${count}"
+diverged   = "⇡${ahead_count}⇣${behind_count}"
+up_to_date = ""
+
+# ══════════════════════════════
+#  GIT FALLBACK — keeps Maroon stripe alive
+#  Fires ONLY when not inside a git repo
+#  Renders blank padding with correct bg colors
+#  so the stripe is always full-height and solid
+# ══════════════════════════════
+[custom.git_fallback]
+when    = "! git rev-parse --is-inside-work-tree 2>/dev/null"
+command = "echo ''"
+format  = "[    ](bg:#A50044)[    ](bg:#7A0033)"
+shell   = ["bash", "--noprofile", "--norc"]
+
+# ══════════════════════════════
+#  LANGUAGES — Barça Blue
+#  Gold text on blue — crest detail
+# ══════════════════════════════
+[nodejs]
+symbol = "\ue718 "   # nf-dev-nodejs_small
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[typescript]
+symbol = "\ue628 "   # nf-seti-typescript
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[bun]
+symbol = "\ue76f "   # nf-dev-javascript_badge
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[deno]
+symbol = "\ue628 "   # nf-seti-typescript (deno is TS-first)
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ Deno $version ]($style)"
+version_format = "v${major}"
+
+[python]
+symbol = "\ue606 "   # nf-dev-python
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}.${minor}"
+pyenv_version_name = false
+
+[rust]
+symbol = "\ue7a8 "   # nf-dev-rust
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[golang]
+symbol = "\ue724 "   # nf-dev-go
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[c]
+symbol = "\ue61e "   # nf-custom-c
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+
+[cpp]
+symbol = "\ue61d "   # nf-custom-cpp
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+
+[csharp]
+symbol = "\ue648 "   # nf-seti-csharp
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[java]
+symbol = "\ue738 "   # nf-dev-java
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[swift]
+symbol = "\ue755 "   # nf-dev-swift
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[php]
+symbol = "\ue73d "   # nf-dev-php
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[ruby]
+symbol = "\ue739 "   # nf-dev-ruby
+style  = "bold fg:#EDBB00 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+[redis]
+symbol = "\ue76d "   # nf-dev-redis
+style  = "bold fg:#DB0030 bg:#004D98"
+format = "[ $symbol$version ]($style)"
+version_format = "v${major}"
+
+# ══════════════════════════════
+#  FILL
+# ══════════════════════════════
+[fill]
+symbol = " "
+
+# ══════════════════════════════
+#  TIME — Stadium scoreboard
+# ══════════════════════════════
+[time]
+disabled    = false
+time_format = "%H:%M"
+style       = "bold fg:#EDBB00"
+format      = "[$time]($style)"
+
+# ══════════════════════════════
+#  CHARACTER — Match ball
+# ══════════════════════════════
+[character]
+success_symbol = "[⚽](bold fg:#004D98)"
+error_symbol   = "[⚽](bold fg:#DB0030)"
+vimcmd_symbol  = "[⚽](bold fg:#EDBB00)"

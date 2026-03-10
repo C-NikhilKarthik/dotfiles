@@ -1,0 +1,8 @@
+*.bak
+.cache/
+.local/
+.Trash/
+.zsh_history
+.npm/
+.pub-cache/
+.gradle/
