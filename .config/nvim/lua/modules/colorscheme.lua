@@ -5,3 +5,24 @@ require("tokyonight").setup({
 	terminal_colors = true,
 })
 vim.cmd([[colorscheme tokyonight]])
+
+vim.cmd([[colorscheme tokyonight]])
+
+local transparent_groups = {
+
+	-- neo-tree
+	"NeoTreeNormal",
+ 	"NeoTreeNormalNC",
+ 	"NeoTreeEndOfBuffer",
+  	"NeoTreeWinSeparator",
+  	"NeoTreeVertSplit",
+  	"NeoTreeFloatBorder",
+
+	-- telescope
+	"TelescopeNormal",
+	"TelescopeBorder",
+}
+
+for _, group in ipairs(transparent_groups) do
+	vim.api.nvim_set_hl(0, group, { bg = "none" })
+end
