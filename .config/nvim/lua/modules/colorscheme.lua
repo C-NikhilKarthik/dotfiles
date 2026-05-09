@@ -1,12 +1,10 @@
 vim.opt.background = "dark"
-require("tokyonight").setup({
-	style = "moon",
-	transparent = true,
-	terminal_colors = true,
-})
-vim.cmd([[colorscheme tokyonight]])
-
-vim.cmd([[colorscheme tokyonight]])
+-- require("tokyonight").setup({
+-- 	style = "moon",
+-- 	transparent = true,
+-- 	terminal_colors = true,
+-- })
+vim.cmd([[colorscheme aurora-x]])
 
 local transparent_groups = {
 
