@@ -6,3 +6,12 @@
 .npm/
 .pub-cache/
 .gradle/
+
+# Karabiner backups
+.config/karabiner/automatic_backups/
+
+# Tmux recordings/captures
+.config/tmux/captures/
+
+# Neovim
+.config/nvim/.netrwhist

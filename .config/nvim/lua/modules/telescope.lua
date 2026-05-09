@@ -3,6 +3,7 @@ local builtin = require("telescope.builtin")
 
 telescope.setup({
 	defaults = {
+		winblend = 10,
 		vimgrep_arguments = {
 			"rg",
 			"--color=never",

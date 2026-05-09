@@ -2,6 +2,9 @@ local neotree = require("neo-tree")
 
 neotree.setup({
   filesystem = {
+	window = {
+		position = "right",
+	},
     filtered_items = {
       visible = true,
     },
